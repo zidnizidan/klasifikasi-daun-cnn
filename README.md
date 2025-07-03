@@ -53,3 +53,10 @@ Model ini dilatih menggunakan dataset gambar daun tomat yang memiliki beberapa k
 ---
 
 ## 🗂️ Struktur File
+
+├── daun_ujian.jpg # Gambar daun untuk pengujian
+├──├── model_klasifikasi_daun.h5 # (tidak disertakan di repo karena besar, disimpan lokal)
+├── predict_single.py # Script untuk prediksi gambar tunggal
+├── train_model.py # Script untuk melatih model CNN
+├── requirements.txt # Daftar dependensi Python
+├── README.md # Dokumentasi proyek (file ini)
