@@ -1,35 +1,32 @@
-import tensorflow as tf
+# predict_single.py
+
 import numpy as np
+from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
+import json
+import os
 
-# Muat model
-model = tf.keras.models.load_model("model_klasifikasi_daun.h5")
+# Load model
+model = load_model("model_klasifikasi_daun.h5")
 
-# Gambar uji
-img_path = "daun_ujian.jpg"  # ubah jika nama file berbeda
+# Load class names
+with open("class_names.json", "r") as f:
+    class_names = json.load(f)
+
+# Gambar input (bisa diganti dengan gambar lain)
+img_path = "daun_ujian.jpg"
+
+# Preprocessing gambar
 img = image.load_img(img_path, target_size=(128, 128))
-img_array = image.img_to_array(img) / 255.0
-img_array = np.expand_dims(img_array, axis=0)
-
-# Label kelas (urutkan sesuai dengan train_generator.class_indices)
-class_names = [
-    'Tomato___Bacterial_spot',
-    'Tomato___Early_blight',
-    'Tomato___Healthy',
-    'Tomato___Late_blight',
-    'Tomato___Leaf_Mold',
-    'Tomato___Septoria_leaf_spot',
-    'Tomato___Target_Spot',
-    'Tomato___Tomato_YellowLeaf_Curl_Virus',
-    'Tomato___Tomato_mosaic_virus'
-]
+img_array = image.img_to_array(img)
+img_array = np.expand_dims(img_array, axis=0) / 255.0
 
 # Prediksi
 prediction = model.predict(img_array)
 predicted_index = np.argmax(prediction)
-confidence = np.max(prediction)
+confidence = round(100 * np.max(prediction), 2)
 
-# Tampilkan hasil
-print("📸 Gambar:", img_path)
+# Output hasil
+print("📸 Gambar:", os.path.basename(img_path))
 print("🧠 Prediksi Kelas:", class_names[predicted_index])
-print("✅ Keyakinan: {:.2f}%".format(confidence * 100))
+print("✅ Confidence:", confidence, "%")
