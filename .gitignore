@@ -1,0 +1,8 @@
+# Abaikan virtual environment dan file sementara
+venv/
+__pycache__/
+*.pyc
+*.pyd
+*.dll
+*.h5
+.DS_Store
